@@ -104,7 +104,7 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
         }
 
         override fun areContentsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return oldItem==newItem
         }
     }
 
