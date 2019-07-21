@@ -16,6 +16,7 @@
 
 package com.example.android.trackmysleepquality.sleeptracker
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -24,27 +25,33 @@ import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.TextItemViewHolder
 import com.example.android.trackmysleepquality.database.SleepNight
 
-class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>()
-{
-    private var _data = listOf<SleepNight>()
-    // SledgeHammer Approach Here
+class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
+    var data = listOf<SleepNight>()
         set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val item_view = layoutInflater.inflate(R.layout.text_item_view,parent,false) as TextView
+        val item_view = layoutInflater.inflate(R.layout.text_item_view, parent, false) as TextView
         return TextItemViewHolder(item_view)
     }
 
     override fun getItemCount(): Int {
-        return _data.size
+        return data.size
     }
 
     override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
-        val item = _data[position]
-        holder.textView.text = item.toString()
+        val item = data[position]
+        if(item.sleepQuality<=1)
+        {
+            holder.textView.setTextColor(Color.RED)
+        }
+        else
+        {
+            holder.textView.setTextColor(Color.BLACK)
+        }
+        holder.textView.text = item.sleepQuality.toString()
     }
 }
