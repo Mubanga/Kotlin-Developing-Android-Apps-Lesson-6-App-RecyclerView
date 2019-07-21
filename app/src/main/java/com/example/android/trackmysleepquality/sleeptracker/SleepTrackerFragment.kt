@@ -57,13 +57,14 @@ class SleepTrackerFragment : Fragment() {
 
         val viewModelFactory = SleepTrackerViewModelFactory(dataSource, application)
 
-        val sleepNightAdapter = SleepNightAdapter(SleepNightAdapter.SleepNightListener { nightId ->
-            Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
-        })
 
         val sleepTrackerViewModel =
                 ViewModelProviders.of(
                         this, viewModelFactory).get(SleepTrackerViewModel::class.java)
+
+        val sleepNightAdapter = SleepNightAdapter(SleepNightAdapter.SleepNightListener { nightId ->
+            sleepTrackerViewModel.onSleepNightClicked(nightId)
+        })
 
         // Declare A GridLayout With A Span Of 3 Items Per Row
         val gridManager = GridLayoutManager(activity,3)
@@ -79,6 +80,14 @@ class SleepTrackerFragment : Fragment() {
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
             it?.let {
                 sleepNightAdapter.submitList(it)
+            }
+        })
+
+        sleepTrackerViewModel.navigateToSleepDataQuality.observe(viewLifecycleOwner, Observer { night->
+            night?.let {
+                this.findNavController().navigate(SleepTrackerFragmentDirections
+                        .actionSleepTrackerFragmentToSleepDetailFragment(night))
+                sleepTrackerViewModel.onSleepDataQualityNavigated()
             }
         })
 
