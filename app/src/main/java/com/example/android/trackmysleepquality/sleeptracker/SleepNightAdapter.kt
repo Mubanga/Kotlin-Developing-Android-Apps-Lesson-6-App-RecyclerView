@@ -16,17 +16,27 @@
 
 package com.example.android.trackmysleepquality.sleeptracker
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.TextItemViewHolder
 import com.example.android.trackmysleepquality.database.SleepNight
 
 class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>()
 {
     private var _data = listOf<SleepNight>()
+    // SledgeHammer Approach Here
+        set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val item_view = layoutInflater.inflate(R.layout.text_item_view,parent,false) as TextView
+        return TextItemViewHolder(item_view)
     }
 
     override fun getItemCount(): Int {
